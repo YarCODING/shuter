@@ -41,7 +41,7 @@ class ENEMYBOSS(BEHAVIORS):
             self.rect.y +=self.size[1]
 
     def shooting(self, enemy_bullets, ENEMY_BULLET, enemy):
-        self.bull = randint(0, 750)
+        self.bull = randint(0, 50)
         if self.bull == 1:
             enemy_bullets.append(ENEMY_BULLET(enemy))
         

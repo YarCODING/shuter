@@ -1,5 +1,5 @@
 from module.sprite_creator import*
-from imports2 import*
+from importz import*
 
 fire_rate_time = 0
 y1 = 0
@@ -15,6 +15,7 @@ boss_health = small_font.render('Boss health: ?', True, (255, 0, 0))
 defeat_txt = font.render('defeat!', True, (255, 0, 0))
 win_txt = font.render('win!', True, (0, 255, 0))
 
+piy = p.mixer.Sound('music\piu.mp3')
 
 
 finish = False
@@ -47,6 +48,7 @@ while True:
             if event.type == p.MOUSEBUTTONDOWN:
                 if fire_rate_time > 30:
                     bullets.append(BULLET(player))
+                    piy.play(1)
                     fire_rate_time = 0
 
         for enemy in enemy_list:
@@ -66,16 +68,16 @@ while True:
 
         for enemy in enemy_list:
             enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
-
+        
+        if enemyboss:
+            enemyboss.shooting(enemy_bullets, ENEMY_BULLET, enemyboss)
         
         for bull in enemy_bullets:
             bull.draw_img()
             bull.move()
 
             if player.rect.colliderect(bull.rect):
-                    enemy_bullets.remove(bull)
-                    finish = True
-                    SCREEN.blit(defeat_txt, (210, 250))
+                SCREEN.blit(defeat_txt, (210, 250))
             
             if enemyboss:
                 if enemyboss.rect.colliderect(bullet.rect):
@@ -94,9 +96,6 @@ while True:
 
         if event.type == p.KEYDOWN and event.key == p.K_SPACE and finish == True:
             finish = False
-        
-        if event.type == p.K_k:
-            enemy_list.clear()
                 
 
     clock.tick(FPS)

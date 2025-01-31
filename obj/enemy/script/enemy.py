@@ -1,4 +1,5 @@
 from module.behaviors import*
+from main import piy
 
 class ENEMY(BEHAVIORS):
     ofset_x = 0
@@ -45,6 +46,7 @@ class ENEMY(BEHAVIORS):
         self.bull = randint(0, 500)
         if self.bull == 1:
             enemy_bullets.append(ENEMY_BULLET(enemy))
+            piy.play(1)
         
 
 
