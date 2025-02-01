@@ -1,4 +1,3 @@
-
 from module.behaviors import*
 
 class PLAYER(BEHAVIORS):

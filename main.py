@@ -1,5 +1,5 @@
 from module.sprite_creator import*
-from importz import*
+from importss import*
 
 fire_rate_time = 0
 y1 = 0
@@ -25,9 +25,9 @@ while True:
         SCREEN.blit(background, (0,y1))  
         SCREEN.blit(background, (0,y2))
 
-        if enemyboss:
-            boss_health = small_font.render(f'Boss health: {enemyboss.health}', True, (255, 0, 0))
-            SCREEN.blit(boss_health, (0, 0))
+        
+        boss_health = small_font.render(f'Boss health: {enemyboss.health}', True, (255, 0, 0))
+        SCREEN.blit(boss_health, (0, 0))
 
         y1+=3
         y2+=3
@@ -40,9 +40,9 @@ while True:
         player.move()
         player.draw_img()
 
-        if enemyboss:
-            enemyboss.move()
-            enemyboss.draw_img()
+        
+        enemyboss.move()
+        enemyboss.draw_img()
 
         for event in p.event.get():
             if event.type == p.MOUSEBUTTONDOWN:
@@ -63,15 +63,11 @@ while True:
                     bullets.remove(bullet)
                     enemy_list.remove(enemy)
 
-                    if not enemy_list:
-                        enemyboss = ENEMYBOSS()
-
         for enemy in enemy_list:
             enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
         
-        if enemyboss:
-            enemyboss.shooting(enemy_bullets, ENEMY_BULLET, enemyboss)
-        
+        enemyboss.shooting(enemy_bullets, ENEMY_BULLET, enemyboss)
+    
         for bull in enemy_bullets:
             bull.draw_img()
             bull.move()
@@ -79,15 +75,14 @@ while True:
             if player.rect.colliderect(bull.rect):
                 SCREEN.blit(defeat_txt, (210, 250))
             
-            if enemyboss:
-                if enemyboss.rect.colliderect(bullet.rect):
-                    bullets.remove(bullet)
-                    enemyboss.health -= 1
+            if enemyboss.rect.colliderect(bullet.rect):
+                bullets.remove(bullet)
+                enemyboss.health -= 1
 
-                    if enemyboss.health <= 0:
-                        enemyboss = None
-                        finish = True
-                        SCREEN.blit(win_txt, (210, 250))
+                if enemyboss.health <= 0:
+                    enemyboss = None
+                    finish = True
+                    SCREEN.blit(win_txt, (210, 250))
 
     for event in p.event.get():
         if event.type == p.QUIT:

@@ -1,4 +1,3 @@
-from obj.enemy.script.enemy import enemy_list
 from module.behaviors import*
 
 class ENEMYBOSS(BEHAVIORS):
@@ -54,4 +53,4 @@ map_list = [
         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 ]
 
-enemyboss = None
+enemyboss = ENEMYBOSS()
