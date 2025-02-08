@@ -1,5 +1,4 @@
 from settings import*
-from module.image_loader import*
 
 class BEHAVIORS:
     def draw_img(self):

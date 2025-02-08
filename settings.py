@@ -9,12 +9,15 @@ SCREEN = p.display.set_mode(SCREENSIZE)
 clock = p.time.Clock()
 FPS = 80
 
-background = p.image.load('img/background.jpg')
+background = p.image.load('background.jpg')
 
 p.mixer.init()
-p.mixer.music.load('music/music.mp3')
+p.mixer.music.load('music.mp3')
 p.mixer.music.set_volume(0.02)
 p.mixer.music.play(0)
+
+# def restart():
+#     os.execv(sys.executable, [sys.executable] + sys.argv)
 
 
 RED = (255, 0, 0)

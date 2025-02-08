@@ -1,5 +1,4 @@
-
-from module.behaviors import*
+from behaviors import*
 
 class ENEMY_BULLET(BEHAVIORS):
     def __init__(self, enemy):
@@ -11,8 +10,8 @@ class ENEMY_BULLET(BEHAVIORS):
                         self.size[0],
                         self.size[1]
                         )
-        self.image = image_load(os.path.dirname(__file__))
-        self.image = p.transform.scale(self.image[0], (self.size[0], self.size[1]))
+        self.image = p.image.load('bullet.png')
+        self.image = p.transform.scale(self.image, (self.size[0], self.size[1]))
         self.speed = 8
         
 

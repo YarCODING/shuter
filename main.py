@@ -1,4 +1,3 @@
-from module.sprite_creator import*
 from importss import*
 
 fire_rate_time = 0
@@ -15,7 +14,7 @@ boss_health = small_font.render('Boss health: ?', True, (255, 0, 0))
 defeat_txt = font.render('defeat!', True, (255, 0, 0))
 win_txt = font.render('win!', True, (0, 255, 0))
 
-piy = p.mixer.Sound('music\piu.mp3')
+piy = p.mixer.Sound('piu.mp3')
 
 
 finish = False
@@ -26,7 +25,7 @@ while True:
         SCREEN.blit(background, (0,y2))
 
         
-        # boss_health = small_font.render(f'Boss health: {enemyboss.health}', True, (255, 0, 0))
+        boss_health = small_font.render(f'Boss health: {enemyboss.health}', True, (255, 0, 0))
         SCREEN.blit(boss_health, (0, 0))
 
         y1+=3
@@ -41,8 +40,8 @@ while True:
         player.draw_img()
 
         
-        # enemyboss.move()
-        # enemyboss.draw_img()
+        enemyboss.move()
+        enemyboss.draw_img()
 
         for event in p.event.get():
             if event.type == p.MOUSEBUTTONDOWN:
@@ -58,15 +57,19 @@ while True:
         for bullet in bullets:
             bullet.move()
             bullet.draw_img()
+            if enemyboss.rect.colliderect(bullet.rect):
+                bullets.remove(bullet)
+                enemyboss.health -= 1
             for enemy in enemy_list:
                 if enemy.rect.colliderect(bullet.rect):
                     bullets.remove(bullet)
                     enemy_list.remove(enemy)
 
+
         for enemy in enemy_list:
             enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
         
-        # enemyboss.shooting(enemy_bullets, ENEMY_BULLET, enemyboss)
+        enemyboss.shooting(enemy_bullets, ENEMY_BULLET, enemyboss)
     
         for bull in enemy_bullets:
             bull.draw_img()
@@ -74,20 +77,17 @@ while True:
 
             if player.rect.colliderect(bull.rect):
                 SCREEN.blit(defeat_txt, (210, 250))
-            
-            # if enemyboss.rect.colliderect(bullet.rect):
-            #     bullets.remove(bullet)
-            #     enemyboss.health -= 1
+                finish = True
+                # os.execv(sys.executable, [sys.executable] + sys.argv)
 
-            #     if enemyboss.health <= 0:
-            #         enemyboss = None
-            #         finish = True
-            #         SCREEN.blit(win_txt, (210, 250))
+                if enemyboss.health <= 0:
+                    enemyboss = None
+                    finish = True
+                    SCREEN.blit(win_txt, (210, 250))
 
     for event in p.event.get():
         if event.type == p.QUIT:
             p.quit()
-            sys.exit()
 
         if event.type == p.KEYDOWN and event.key == p.K_SPACE and finish == True:
             finish = False
