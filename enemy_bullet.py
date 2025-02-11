@@ -12,7 +12,7 @@ class ENEMY_BULLET(BEHAVIORS):
                         )
         self.image = p.image.load('bullet.png')
         self.image = p.transform.scale(self.image, (self.size[0], self.size[1]))
-        self.speed = 8
+        self.speed = 5
         
 
     def move(self):

@@ -94,7 +94,6 @@ class ENEMYBOSS(BEHAVIORS):
         self.image = p.transform.scale(self.image, (self.size[0], self.size[1]))
         self.speed = 2.5
         self.health = 5
-        # self.bull_spawn = 0
 
 
     def move(self):
@@ -106,6 +105,8 @@ class ENEMYBOSS(BEHAVIORS):
         if self.rect.x > SCREENSIZE[0] - self.size[0] or self.rect.x < 0:
             self.reverse = not(self.reverse)
             self.rect.y +=self.size[1]
+
+            
 
     def shooting(self, enemy_bullets, ENEMY_BULLET, enemy):
         self.bull = randint(0, 200)

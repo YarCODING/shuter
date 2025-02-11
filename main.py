@@ -8,6 +8,7 @@ p.init()
 
 font = p.font.SysFont('Arial', 40, True)
 small_font = p.font.SysFont('Arial', 30, False)
+stat_font = p.font.SysFont('Arial', 15, False)
 
 boss_health = small_font.render(f'Boss health: ?', True, (255, 0, 0))
 
@@ -20,14 +21,33 @@ spawn_enemys()
 finish = False
 boss_fight = False
 roundn = 1
-roundn_txt = font.render(f'Round {roundn}', True, (255, 255, 0))
+roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
+points = 0
+points_txt = stat_font.render(f'Points: {points}', True, (255, 255, 0))
+
+def reset():
+    global enemy_list, bullets, enemy_bullets, enemyboss, boss_fight, roundn, points
+    enemy_list.clear()
+    bullets.clear()
+    enemy_bullets.clear()
+    enemyboss = ENEMYBOSS()
+    enemyboss.rect.x = 0
+    enemyboss.rect.y = 0
+    boss_fight = False
+    spawn_enemys()
+    roundn = 1
+    points = 0
 
 while True:
     if not finish:
         fire_rate_time += 1
         SCREEN.blit(background, (0,y1))  
         SCREEN.blit(background, (0,y2))
-        SCREEN.blit(roundn_txt, (325, 0))
+
+        roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
+        SCREEN.blit(roundn_txt, (400, 0))
+        points_txt = stat_font.render(f'Points: {points}', True, (255, 255, 0))
+        SCREEN.blit(points_txt, (400, 30))
 
         y1+=3
         y2+=3
@@ -41,7 +61,6 @@ while True:
         player.draw_img()
 
         
-
         for event in p.event.get():
             if event.type == p.MOUSEBUTTONDOWN:
                 if fire_rate_time > 30:
@@ -52,6 +71,10 @@ while True:
         for enemy in enemy_list:
             enemy.move()
             enemy.draw_img()
+            enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
+
+            if enemy.rect.y > SCREENSIZE[1]:
+                reset()
 
         for bullet in bullets:
             bullet.move()
@@ -60,11 +83,8 @@ while True:
                 if enemy.rect.colliderect(bullet.rect):
                     bullets.remove(bullet)
                     enemy_list.remove(enemy)
-
-
-        for enemy in enemy_list:
-            enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
-        
+                    points += 1
+                  
     
         for bull in enemy_bullets:
             bull.draw_img()
@@ -73,6 +93,7 @@ while True:
             if bull.rect.colliderect(player.rect):
                 enemy_bullets.remove(bull)
                 SCREEN.blit(defeat_txt, (210, 250))
+                reset()
                 finish = True
 
         if not enemy_list:
@@ -90,6 +111,9 @@ while True:
                     enemyboss.health -= 1
             
             boss_health = small_font.render(f'Boss health:  {enemyboss.health}', True, (255, 0, 0))
+
+            if enemyboss.rect.y > SCREENSIZE[1]:
+                reset()
             
             if enemyboss.health <= 0:
                 boss_fight = False
