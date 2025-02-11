@@ -6,25 +6,25 @@ y2 = -1080
 
 p.init()
 
-font = p.font.SysFont('Arial', 40, True)
-small_font = p.font.SysFont('Arial', 30, False)
-stat_font = p.font.SysFont('Arial', 15, False)
-
-boss_health = small_font.render(f'Boss health: ?', True, (255, 0, 0))
-
-defeat_txt = font.render('defeat!', True, (255, 0, 0))
-win_txt = font.render('win!', True, (0, 255, 0))
-
 piy = p.mixer.Sound('piu.mp3')
 
 spawn_enemys()
 finish = False
 boss_fight = False
 roundn = 1
-roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
 points = 0
+
+# texts
+font = p.font.SysFont('Arial', 40, True)
+small_font = p.font.SysFont('Arial', 30, False)
+stat_font = p.font.SysFont('Arial', 15, False)
+boss_health = small_font.render(f'Boss health: ?', True, (255, 0, 0))
+defeat_txt = font.render('defeat!', True, (255, 0, 0))
+win_txt = font.render('win!', True, (0, 255, 0))
+roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
 points_txt = stat_font.render(f'Points: {points}', True, (255, 255, 0))
 
+# функція для перезапуску
 def reset():
     global enemy_list, bullets, enemy_bullets, enemyboss, boss_fight, roundn, points
     enemy_list.clear()
@@ -38,9 +38,11 @@ def reset():
     roundn = 1
     points = 0
 
+
 while True:
     if not finish:
         fire_rate_time += 1
+        # відображення ----------------------------------
         SCREEN.blit(background, (0,y1))  
         SCREEN.blit(background, (0,y2))
 
@@ -56,18 +58,26 @@ while True:
             y1 = -1080
         if y2> 1080:
             y2 = -1080
+        # ------------------------------------------------
 
+
+        # ігрок ----------------------------------------
         player.move()
         player.draw_img()
+        #-----------------------------------------------
 
-        
+
+        # стрільба --------------------------------
         for event in p.event.get():
             if event.type == p.MOUSEBUTTONDOWN:
                 if fire_rate_time > 30:
                     bullets.append(BULLET(player))
                     piy.play(0)
                     fire_rate_time = 0
+        # -----------------------------------------
 
+
+        # ворог ---------------------------------------
         for enemy in enemy_list:
             enemy.move()
             enemy.draw_img()
@@ -75,7 +85,10 @@ while True:
 
             if enemy.rect.y > SCREENSIZE[1]:
                 reset()
+        #-------------------------------------------
 
+
+        # кулі --------------------------------------
         for bullet in bullets:
             bullet.move()
             bullet.draw_img()
@@ -85,7 +98,6 @@ while True:
                     enemy_list.remove(enemy)
                     points += 1
                   
-    
         for bull in enemy_bullets:
             bull.draw_img()
             bull.move()
@@ -95,7 +107,10 @@ while True:
                 SCREEN.blit(defeat_txt, (210, 250))
                 reset()
                 finish = True
+        #--------------------------------------------
 
+
+        # босс --------------------------------------
         if not enemy_list:
             boss_fight = True      
         
@@ -124,6 +139,8 @@ while True:
                 roundn += 1
                 enemyboss.health = roundn * 5
                 spawn_enemys()
+        #----------------------------------------------
+
 
     for event in p.event.get():
         if event.type == p.QUIT:
