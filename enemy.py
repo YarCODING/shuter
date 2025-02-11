@@ -59,32 +59,34 @@ map_list = [
 
 enemy_list = []
 
-for i in map_list:
-    if i == 1:
-        enemy_list.append(ENEMY())
-    else:
-        ENEMY.limit +=1
-        if ENEMY.limit != SCREENSIZE[0]/ 32:
-            ENEMY.ofset_x += 32
+def spawn_enemys():
+    global enemy_list
+    for i in map_list:
+        if i == 1:
+            enemy_list.append(ENEMY())
         else:
-            ENEMY.ofset_y += 32
-            ENEMY.ofset_x = 0
-            ENEMY.limit = 0
+            ENEMY.limit +=1
+            if ENEMY.limit != SCREENSIZE[0]/ 32:
+                ENEMY.ofset_x += 32
+            else:
+                ENEMY.ofset_y += 32
+                ENEMY.ofset_x = 0
+                ENEMY.limit = 0
+    
+    ENEMY.ofset_x = 0
+    ENEMY.ofset_y = 0
+    ENEMY.limit = 0
 
 
 
 class ENEMYBOSS(BEHAVIORS):
-    ofset_x = 0
-    ofset_y = 0
-    limit = 0
-
     def __init__(self):
         self.size = (64, 64)
         self.color = RED 
         self.reverse = False
         self.rect = p.Rect(
-                        ENEMYBOSS.ofset_x,
-                        ENEMYBOSS.ofset_y,
+                        0,
+                        0,
                         self.size[0],
                         self.size[1]
                         )
@@ -92,14 +94,7 @@ class ENEMYBOSS(BEHAVIORS):
         self.image = p.transform.scale(self.image, (self.size[0], self.size[1]))
         self.speed = 2.5
         self.health = 5
-        self.bull_spawn = 0
-        ENEMYBOSS.limit +=1
-        if ENEMYBOSS.limit != SCREENSIZE[0]/ self.size[0]:
-            ENEMYBOSS.ofset_x += self.size[0]
-        else:
-            ENEMYBOSS.ofset_y += self.size[1]
-            ENEMYBOSS.ofset_x = 0
-            ENEMYBOSS.limit = 0
+        # self.bull_spawn = 0
 
 
     def move(self):
