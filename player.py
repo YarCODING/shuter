@@ -28,3 +28,18 @@ class PLAYER(BEHAVIORS):
            self.rect.y += self.speed
 
 player = PLAYER()
+
+class BUTTON(BEHAVIORS):
+    def __init__(self):
+        self.size = (228, 64)
+        self.color = RED 
+        self.rect = p.Rect(
+                        SCREENSIZE[0]/2 - self.size[0]/2,
+                        600,
+                        self.size[0],
+                        self.size[1]
+                        )
+        self.image = p.image.load('button.png')
+        self.image = p.transform.scale(self.image, (self.size[0], self.size[1]))
+
+button = BUTTON()

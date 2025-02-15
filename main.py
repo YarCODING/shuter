@@ -10,6 +10,7 @@ piy = p.mixer.Sound('piu.mp3')
 
 spawn_enemys()
 finish = False
+menu = True
 boss_fight = False
 roundn = 1
 points = 0
@@ -23,6 +24,7 @@ defeat_txt = font.render('defeat!', True, (255, 0, 0))
 win_txt = font.render('win!', True, (0, 255, 0))
 roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
 points_txt = stat_font.render(f'Points: {points}', True, (255, 255, 0))
+menu_txt = font.render('SHUTER', True, (255, 255, 255))
 
 # функція для перезапуску
 def reset():
@@ -40,7 +42,11 @@ def reset():
 
 
 while True:
-    if not finish:
+    if menu:
+        SCREEN.blit(menu_bg, (0,0))
+        SCREEN.blit(menu_txt, (170, 200))
+        button.draw_img()
+    if not finish and not menu:
         fire_rate_time += 1
         # відображення ----------------------------------
         SCREEN.blit(background, (0,y1))  
@@ -135,7 +141,8 @@ while True:
                 finish = True
                 SCREEN.blit(win_txt, (210, 250))
 
-                boss_fight = False
+                # enemyboss.rect.x = 0
+                # enemyboss.rect.y = 0
                 roundn += 1
                 enemyboss.health = roundn * 5
                 spawn_enemys()
@@ -145,6 +152,12 @@ while True:
     for event in p.event.get():
         if event.type == p.QUIT:
             p.quit()
+            sys.exit()
+        
+        if menu and event.type == p.MOUSEBUTTONDOWN and event.button == 1:
+            x, y = event.pos
+            if button.rect.collidepoint(x, y):
+                menu = False
 
         if event.type == p.KEYDOWN and event.key == p.K_SPACE and finish == True:
             finish = False
