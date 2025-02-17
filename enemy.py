@@ -104,8 +104,7 @@ class ENEMYBOSS(BEHAVIORS):
 
         if self.rect.x > SCREENSIZE[0] - self.size[0] or self.rect.x < 0:
             self.reverse = not(self.reverse)
-            self.rect.y +=self.size[1]
-
+            self.rect.y += self.size[1]
             
 
     def shooting(self, enemy_bullets, ENEMY_BULLET, enemy):

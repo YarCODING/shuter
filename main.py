@@ -87,7 +87,7 @@ while True:
         for enemy in enemy_list:
             enemy.move()
             enemy.draw_img()
-            enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
+            #enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
 
             if enemy.rect.y > SCREENSIZE[1]:
                 reset()
@@ -141,14 +141,14 @@ while True:
                 finish = True
                 SCREEN.blit(win_txt, (210, 250))
 
-                # enemyboss.rect.x = 0
-                # enemyboss.rect.y = 0
+                enemyboss.rect.x = 0
+                enemyboss.rect.y = 0
+                enemyboss.reverse = False
                 roundn += 1
                 enemyboss.health = roundn * 5
                 spawn_enemys()
         #----------------------------------------------
-
-
+        
     for event in p.event.get():
         if event.type == p.QUIT:
             p.quit()
@@ -158,6 +158,10 @@ while True:
             x, y = event.pos
             if button.rect.collidepoint(x, y):
                 menu = False
+
+        if event.type == p.KEYDOWN and event.key == p.K_ESCAPE:
+            menu = True
+            finish = True
 
         if event.type == p.KEYDOWN and event.key == p.K_SPACE and finish == True:
             finish = False

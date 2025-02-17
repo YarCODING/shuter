@@ -15,7 +15,7 @@ menu_bg = p.image.load('menu_bg.jpg')
 
 p.mixer.init()
 p.mixer.music.load('music.mp3')
-p.mixer.music.set_volume(0.02)
+p.mixer.music.set_volume(0.2)
 p.mixer.music.play(0)
 
 
