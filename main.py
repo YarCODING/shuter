@@ -89,6 +89,11 @@ while True:
             enemy.draw_img()
             #enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
 
+            if enemy.rect.colliderect(player.rect):
+                SCREEN.blit(defeat_txt, (210, 250))
+                reset()
+                finish = True
+
             if enemy.rect.y > SCREENSIZE[1]:
                 reset()
         #-------------------------------------------
