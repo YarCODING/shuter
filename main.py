@@ -11,9 +11,28 @@ piy = p.mixer.Sound('piu.mp3')
 spawn_enemys()
 finish = False
 menu = True
+game = True
 boss_fight = False
 roundn = 1
 points = 0
+records = {}
+
+with open('record.json', 'r', encoding='utf-8') as file:
+    try:
+        records = json.load(file)
+    except:
+        records = {"round": 1, "kills": 0}
+
+def write(points):
+    global records, roundn
+    with open('record.json', 'w', encoding='utf-8') as f:
+        if records["round"] < roundn:
+            txt = {"round":roundn, "kills":records['kills']}
+            json.dump(txt, f)
+
+        if records["kills"] < points:
+            txt = {"round":records['round'], "kills":points}
+            json.dump(txt, f)
 
 # texts
 font = p.font.SysFont('Arial', 40, True)
@@ -25,6 +44,7 @@ win_txt = font.render('win!', True, (0, 255, 0))
 roundn_txt = small_font.render(f'Round {roundn}', True, (255, 255, 0))
 points_txt = stat_font.render(f'Points: {points}', True, (255, 255, 0))
 menu_txt = font.render('SHUTER', True, (255, 255, 255))
+record_txt = small_font.render(f"Рекорди: points: {records['kills']}, round: {records['round']}", True, (255, 255, 255))
 
 # функція для перезапуску
 def reset():
@@ -39,12 +59,13 @@ def reset():
     spawn_enemys()
     roundn = 1
     points = 0
+     
 
-
-while True:
+while game:
     if menu:
         SCREEN.blit(menu_bg, (0,0))
         SCREEN.blit(menu_txt, (170, 200))
+        SCREEN.blit(record_txt, (10, 0))
         button.draw_img()
     if not finish and not menu:
         fire_rate_time += 1
@@ -87,14 +108,16 @@ while True:
         for enemy in enemy_list:
             enemy.move()
             enemy.draw_img()
-            #enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
+            enemy.shooting(enemy_bullets, ENEMY_BULLET, enemy)
 
             if enemy.rect.colliderect(player.rect):
                 SCREEN.blit(defeat_txt, (210, 250))
+                write(points)
                 reset()
                 finish = True
 
             if enemy.rect.y > SCREENSIZE[1]:
+                write(points)
                 reset()
         #-------------------------------------------
 
@@ -116,6 +139,7 @@ while True:
             if bull.rect.colliderect(player.rect):
                 enemy_bullets.remove(bull)
                 SCREEN.blit(defeat_txt, (210, 250))
+                write(points)
                 reset()
                 finish = True
         #--------------------------------------------
@@ -139,6 +163,7 @@ while True:
             boss_health = small_font.render(f'Boss health:  {enemyboss.health}', True, (255, 0, 0))
 
             if enemyboss.rect.y > SCREENSIZE[1]:
+                write(points)
                 reset()
             
             if enemyboss.health <= 0:
@@ -152,12 +177,11 @@ while True:
                 roundn += 1
                 enemyboss.health = roundn * 5
                 spawn_enemys()
-        #----------------------------------------------
-        
+        #----------------------------------------------     
     for event in p.event.get():
         if event.type == p.QUIT:
-            p.quit()
-            sys.exit()
+            game = False
+            write(points)
         
         if menu and event.type == p.MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos

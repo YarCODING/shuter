@@ -2,7 +2,7 @@ import pygame as p
 import sys
 from random import*
 import os
-
+import json
 
 SCREENSIZE = (500, 700)
 SCREEN = p.display.set_mode(SCREENSIZE)
