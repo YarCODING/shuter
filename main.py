@@ -95,12 +95,12 @@ while game:
 
 
         # стрільба --------------------------------
-        for event in p.event.get():
-            if event.type == p.MOUSEBUTTONDOWN:
-                if fire_rate_time > 30:
-                    bullets.append(BULLET(player))
-                    piy.play(0)
-                    fire_rate_time = 0
+        # for event in p.event.get():
+            # if event.type == p.MOUSEBUTTONDOWN:
+            #     if fire_rate_time > 30:
+            #         bullets.append(BULLET(player))
+            #         piy.play(0)
+            #         fire_rate_time = 0
         # -----------------------------------------
 
 
@@ -182,6 +182,12 @@ while game:
         if event.type == p.QUIT:
             game = False
             write(points)
+        
+        if event.type == p.MOUSEBUTTONDOWN:
+                if fire_rate_time > 30:
+                    bullets.append(BULLET(player))
+                    piy.play(0)
+                    fire_rate_time = 0
         
         if menu and event.type == p.MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos
