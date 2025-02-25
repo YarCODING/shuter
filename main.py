@@ -93,17 +93,6 @@ while game:
         player.draw_img()
         #-----------------------------------------------
 
-
-        # стрільба --------------------------------
-        # for event in p.event.get():
-            # if event.type == p.MOUSEBUTTONDOWN:
-            #     if fire_rate_time > 30:
-            #         bullets.append(BULLET(player))
-            #         piy.play(0)
-            #         fire_rate_time = 0
-        # -----------------------------------------
-
-
         # ворог ---------------------------------------
         for enemy in enemy_list:
             enemy.move()
@@ -183,11 +172,13 @@ while game:
             game = False
             write(points)
         
+        # стрільба --------------------------------
         if event.type == p.MOUSEBUTTONDOWN:
                 if fire_rate_time > 30:
                     bullets.append(BULLET(player))
                     piy.play(0)
                     fire_rate_time = 0
+        #-------------------------------------------
         
         if menu and event.type == p.MOUSEBUTTONDOWN and event.button == 1:
             x, y = event.pos
